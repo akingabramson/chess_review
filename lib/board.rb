@@ -1,3 +1,11 @@
+#ASH: Asher's comments will be preceded by ASH:
+
+#ASH: Overall notes:  I love how concise and separated your code is.  It makes sense
+#that the pieces build themselves and you were very good about keeping methods short overall.
+#There are a few places where you can experiment with raising exceptions instead of looping
+#until you get a valid input.
+
+
 
 require './pieces.rb'
 class Board
@@ -17,6 +25,7 @@ class Board
     @squares = squares
     @colors = [:black, :white]
     Piece.place_pieces(self)
+    #ASH: might be worth asking whether the board should be placing the pieces, or the piece itself.
   end
 
 
@@ -30,9 +39,11 @@ class Board
 
     taken = @squares[row][col]
     taken.location = nil if taken
+    #ASH: might want to comment what's happening, e.g. if there's a piece in taken, then take it away
 
     @squares[row][col] = piece
     piece.location = [row, col]
+    #ASH: e.g, set new piece down
   end
 
   def active_pieces(color)
@@ -51,6 +62,9 @@ class Board
 
   def move_piece(start_pos, end_pos)
     piece = self[*start_pos]
+
+    #ASH: if piece isn't nil, then clone 
+    #the board and check to see if the move turns into check.  good
 
     unless piece.nil?
       # debugger
@@ -77,7 +91,11 @@ class Board
 
   def check?(color)
     king = king(color)
-    opponent = @colors.reject {|cl| cl == king.color}
+
+    #ASH: this returns an array containing the opposite color.  You can even reference the [0]
+    #on this line to be more specific
+    opponent = @colors.reject {|cl| cl == king.color} 
+    #ASH: I'm getting an error here for calling .color on a blank array
     all_possible_destinations(opponent[0]).include?(king.location)
   end
 
@@ -106,6 +124,7 @@ class Board
         end
       end
     end
+
 
     set_clone_pieces(ghost_board)
     ghost_board
@@ -150,6 +169,8 @@ class Board
   end
 
   # private
+
+  #ASH: you can shorten this method by calling Array.new(8) {Array.new(8)}.  All on one line.
   def self.blank_squares
     squares = []
     8.times do |row_index|

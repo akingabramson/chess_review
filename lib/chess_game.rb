@@ -1,7 +1,7 @@
 require './board.rb'
 require './pieces.rb'
 require './chess_player.rb'
-require 'debugger'
+# require 'debugger'
 
 
 class Game
@@ -19,10 +19,11 @@ class Game
 
   def play_loop
     until @board.checkmate?(@turn)
-
       play_turn
     end
   end
+
+  #ASH: good factory method
 
   def self.lets_play
     board = Board.new
@@ -42,18 +43,18 @@ class Game
       current_player = @players[@turn]
       start_pos, end_pos = current_player.turn(@turn)
 
+      #ASH: try raising exceptions with begin and rescue here.  You can use "retry" to return
+      #to the equivalent of the top of the loop.
+
       break if @board.move_piece(start_pos, end_pos) #this should return true if the move worked
       puts "Invalid move. Try again."
     end
 
     @turn = ((@turn == :white) ? :black : :white)
   end
-
-
-
 end
 
 
 if __FILE__ == $PROGRAM_NAME
-  Game.lets_play
+  Game.new.lets_play
 end

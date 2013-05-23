@@ -1,6 +1,9 @@
 require 'set'
-require 'debugger'
+# require 'debugger'
 class Piece
+
+  #ASH: smart.  We should have set our deltas in a hash too.
+
   DELTAS = {
     :south => [1, 0],
     :north => [-1, 0],
@@ -66,8 +69,8 @@ class Piece
         path << [row, col]
       end
 
-      break unless square_contents.nil?
-      break if self.is_a?(Stepper)
+      break unless square_contents.nil? #ASH: does this still return path for spaces
+      break if self.is_a?(Stepper)      #     where pieces are >2 moves away, or does it just break?
       row += row_offset
       col += col_offset
     end
@@ -215,6 +218,9 @@ class Pawn < Stepper
   end
 
   def self.place_pawns(board)
+
+    #ASH: This could probably be looped with just an array of [1,6] and going to 
+    #each spot
     starting_positions = {
       :black => [[1,0], [1,1], [1,2], [1,3], [1,4], [1,5], [1,6], [1,7]],
       :white => [[6,0], [6,1], [6,2], [6,3], [6,4], [6,5], [6,6], [6,7]]

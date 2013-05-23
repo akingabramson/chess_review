@@ -7,6 +7,8 @@ class Player
 
 
   def turn(color)
+
+    #ASH: Try raising exceptions here as well.
     while true
       puts "Choose the piece to move"
       piece = get_input
